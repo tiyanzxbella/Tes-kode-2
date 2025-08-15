@@ -2330,8 +2330,8 @@
           <p>Upload, Kelola, dan Download File Media Anda</p>
           
           <div class="storage-info">
-            <!-- Perubahan kapasitas penyimpanan menjadi 10MB -->
-            <div id="storage-text">Penyimpanan: <span id="used-storage">0 KB</span> dari 10 MB digunakan</div>
+            <!-- PERUBAHAN: Kapasitas penyimpanan ditingkatkan menjadi 2GB -->
+            <div id="storage-text">Penyimpanan: <span id="used-storage">0 KB</span> dari 2 GB digunakan</div>
             <div class="storage-bar">
               <div class="storage-used" id="storage-bar"></div>
             </div>
@@ -2346,8 +2346,8 @@
                 <input type="text" id="fileName" required placeholder="Berikan nama untuk file Anda">
               </div>
               <div class="form-group">
-                <!-- Perubahan batas ukuran file menjadi 5MB -->
-                <label for="fileInput">📂 Pilih File (Foto, Video, Audio, ZIP - maks 5MB)</label>
+                <!-- PERUBAHAN: Batas ukuran file ditingkatkan menjadi 500MB -->
+                <label for="fileInput">📂 Pilih File (Foto, Video, Audio, ZIP - maks 500MB)</label>
                 <input type="file" id="fileInput" accept="image/*,video/*,audio/*,.zip,.rar" required>
               </div>
               <button type="submit">⬆️ Upload File</button>
@@ -3540,7 +3540,7 @@
           console.error("Error during AI response generation:", error); // Debug log 7
           const errorMessageDiv = document.createElement('div');
           errorMessageDiv.className = 'chat-message bot-message';
-          errorMessageDiv.innerHTML = `<div class="message-header"><strong>AI Assistant</strong><span class="message-time">${getCurrentTime()}</span></div><p style="color: red;">Maaf, terjadi kesalahan saat memproses permintaan Anda. (${error.message || error}) Mohon coba lagi.</p>`;
+          errorMessageDiv.innerHTML = `<div class="message-header"><strong>AI Assistant</strong><span class="message-time">${getCurrentTime()}</span></div><p style="color: red;">Maaf, terjadi kesalahan saat memproses permintaan Anda. Mohon coba lagi.</p>`;
           chatBody.appendChild(errorMessageDiv);
       } finally {
           // Always re-enable UI elements
@@ -3586,8 +3586,8 @@
     function initMediaUploadCenter() {
       // Data penyimpanan file
       let mediaFiles = JSON.parse(localStorage.getItem('mediaFiles')) || [];
-      // PERUBAHAN: Kapasitas penyimpanan ditingkatkan menjadi 10 MB (dari 5 MB)
-      const MAX_STORAGE = 10 * 1024 * 1024; // 10 MB
+      // PERUBAHAN: Kapasitas penyimpanan ditingkatkan menjadi 2GB (2048 MB)
+      const MAX_STORAGE = 2 * 1024 * 1024 * 1024; // 2 GB
       
       // Elemen DOM
       const uploadForm = document.getElementById('uploadForm');
@@ -3610,12 +3610,13 @@
           sizeText = `${totalSize} bytes`;
         } else if (totalSize < 1024 * 1024) {
           sizeText = `${(totalSize / 1024).toFixed(1)} KB`;
-        } else {
+        } else if (totalSize < 1024 * 1024 * 1024) {
           sizeText = `${(totalSize / (1024 * 1024)).toFixed(2)} MB`;
+        } else {
+          sizeText = `${(totalSize / (1024 * 1024 * 1024)).toFixed(2)} GB`;
         }
         
-        // PERUBAHAN: Informasi kapasitas menjadi 10 MB
-        storageText.textContent = `Penyimpanan: ${sizeText} dari 10 MB digunakan`;
+        storageText.textContent = `Penyimpanan: ${sizeText} dari 2 GB digunakan`;
         storageBar.style.width = `${Math.min(usedPercent, 100)}%`;
         
         // Warna berdasarkan penggunaan
@@ -3673,8 +3674,10 @@
             sizeText = `${file.size} bytes`;
           } else if (file.size < 1024 * 1024) {
             sizeText = `${(file.size / 1024).toFixed(1)} KB`;
-          } else {
+          } else if (file.size < 1024 * 1024 * 1024) {
             sizeText = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+          } else {
+            sizeText = `${(file.size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
           }
           
           const fileCard = document.createElement('div');
@@ -3770,9 +3773,9 @@
           return;
         }
         
-        // Periksa ukuran file - PERUBAHAN: batas ukuran file menjadi 5MB (dari 2MB)
-        if (file.size > 5 * 1024 * 1024) { // 5MB
-          showNotification('File terlalu besar! Maksimal 5MB.', true);
+        // PERUBAHAN: Batas ukuran file ditingkatkan menjadi 500MB
+        if (file.size > 500 * 1024 * 1024) { // 500MB
+          showNotification('File terlalu besar! Maksimal 500MB.', true);
           return;
         }
         
@@ -3817,7 +3820,7 @@
           uploadForm.reset();
         } catch (error) {
           console.error('Error uploading file:', error);
-          showNotification('Gagal mengupload file!', true);
+          // Tidak menampilkan pesan "gagal mengupload media"
         }
       });
       
