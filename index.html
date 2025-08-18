@@ -9,6 +9,231 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
+    /* Animasi baru yang ditambahkan */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes slideInLeft {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes wave {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+    
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px rgba(138, 43, 226, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.8); }
+      100% { box-shadow: 0 0 5px rgba(138, 43, 226, 0.5); }
+    }
+    
+    /* Animasi splash screen */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a1a, #1a1a2a);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeOut 1.5s forwards 2.5s;
+    }
+    
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+    
+    .splash-logo {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(45deg, #8A2BE2, #4CAF50);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+      animation: pulse 2s infinite, rotate 8s linear infinite;
+      box-shadow: 0 0 30px rgba(138, 43, 226, 0.6);
+    }
+    
+    .splash-logo i {
+      font-size: 60px;
+      color: white;
+    }
+    
+    .splash-text {
+      font-size: 36px;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(138, 43, 226, 0.8);
+      animation: wave 1.5s infinite;
+    }
+    
+    .splash-text span {
+      display: inline-block;
+    }
+    
+    .splash-text span:nth-child(1) { animation-delay: 0.1s; }
+    .splash-text span:nth-child(2) { animation-delay: 0.2s; }
+    .splash-text span:nth-child(3) { animation-delay: 0.3s; }
+    .splash-text span:nth-child(4) { animation-delay: 0.4s; }
+    .splash-text span:nth-child(5) { animation-delay: 0.5s; }
+    .splash-text span:nth-child(6) { animation-delay: 0.6s; }
+    .splash-text span:nth-child(7) { animation-delay: 0.7s; }
+    .splash-text span:nth-child(8) { animation-delay: 0.8s; }
+    
+    /* Animasi untuk tombol */
+    button {
+      animation: glow 2s infinite;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      animation: pulse 0.5s infinite;
+    }
+    
+    /* Animasi untuk card produk */
+    .produk-item {
+      animation: float 4s ease-in-out infinite;
+      animation-delay: calc(var(--delay) * 0.2s);
+    }
+    
+    /* Animasi untuk form login */
+    .login-box {
+      animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    .login-content {
+      animation: fadeIn 0.8s ease-out 0.3s forwards;
+      opacity: 0;
+    }
+    
+    /* Animasi untuk section */
+    .content-section {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    /* Animasi untuk upload */
+    .upload-animation {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    
+    .upload-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #8A2BE2, #4CAF50);
+      width: 0%;
+      border-radius: 0 0 10px 10px;
+      transition: width 1.5s ease;
+    }
+    
+    .upload-success {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(76, 175, 80, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      border-radius: 10px;
+    }
+    
+    .upload-success.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .upload-success i {
+      font-size: 60px;
+      color: white;
+      animation: scaleIn 0.5s ease-out;
+    }
+    
+    /* Animasi untuk popup warning */
+    .popup-content {
+      animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    /* Animasi untuk efek tekan tombol */
+    .btn-pressed {
+      animation: pressEffect 0.3s ease-out;
+    }
+    
+    @keyframes pressEffect {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Animasi untuk efek gelombang */
+    .wave-effect {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes waveEffect {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
+    /* Animasi untuk munculnya konten */
+    .fade-in-element {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    /* CSS lainnya tetap sama seperti sebelumnya */
     /* Menambahkan smooth scroll untuk seluruh halaman HTML */
     html {
       scroll-behavior: smooth;
@@ -1644,6 +1869,7 @@
       transition: all 0.3s ease;
       background-color: var(--card-bg);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
     }
 
     .file-card:hover {
@@ -2024,6 +2250,26 @@
   </style>
 </head>
 <body>
+  <!-- Splash Screen -->
+  <div class="splash-screen">
+    <div class="splash-logo">
+      <i class="fas fa-rocket"></i>
+    </div>
+    <div class="splash-text">
+      <span>T</span>
+      <span>i</span>
+      <span>y</span>
+      <span>a</span>
+      <span>n</span>
+      <span> </span>
+      <span>S</span>
+      <span>t</span>
+      <span>o</span>
+      <span>r</span>
+      <span>e</span>
+    </div>
+  </div>
+
   <canvas id="salju"></canvas>
 
   <!-- Sidebar Menu -->
@@ -2628,6 +2874,9 @@
       
       // Tampilkan produk
       displayProduk();
+      
+      // Tambahkan animasi untuk semua tombol
+      addButtonAnimations();
     });
 
     // Tutup form login
@@ -2958,6 +3207,8 @@
         const item = produk[i];
         const itemDiv = document.createElement('div');
         itemDiv.classList.add('produk-item');
+        // Tambahkan delay animasi untuk efek floating
+        itemDiv.style.setProperty('--delay', i);
         itemDiv.innerHTML = `
           <img src="${item.gambar}" alt="${item.nama}">
           <h2>${item.nama}</h2>
@@ -3820,7 +4071,7 @@
           uploadForm.reset();
         } catch (error) {
           console.error('Error uploading file:', error);
-          // Tidak menampilkan pesan "gagal mengupload media"
+          showNotification('Gagal mengupload file', true);
         }
       });
       
@@ -3960,6 +4211,62 @@
     logoutLink.addEventListener('click', function(e) {
       e.preventDefault();
       logoutUser();
+    });
+    
+    // ==================== ANIMASI TAMBAHAN ====================
+    
+    // Fungsi untuk menambahkan efek animasi pada semua tombol
+    function addButtonAnimations() {
+      const buttons = document.querySelectorAll('button, .payment-btn, .store-btn, .download-btn, .delete-btn, .web-link-card a');
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          // Efek ripple untuk semua tombol
+          createRipple(e);
+          
+          // Efek pulse tambahan
+          this.classList.add('btn-pressed');
+          setTimeout(() => {
+            this.classList.remove('btn-pressed');
+          }, 300);
+        });
+      });
+    }
+    
+    // Fungsi untuk efek gelombang saat klik
+    function createWaveEffect(event) {
+      const wave = document.createElement('span');
+      wave.className = 'wave-effect';
+      
+      const size = Math.max(event.target.offsetWidth, event.target.offsetHeight);
+      const rect = event.target.getBoundingClientRect();
+      
+      wave.style.width = wave.style.height = `${size}px`;
+      wave.style.left = `${event.clientX - rect.left - size/2}px`;
+      wave.style.top = `${event.clientY - rect.top - size/2}px`;
+      
+      event.target.appendChild(wave);
+      
+      setTimeout(() => {
+        wave.remove();
+      }, 600);
+    }
+    
+    // Tambahkan event listener untuk efek gelombang
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'BUTTON' || 
+          e.target.classList.contains('payment-btn') || 
+          e.target.classList.contains('store-btn') ||
+          e.target.classList.contains('download-btn') ||
+          e.target.classList.contains('delete-btn')) {
+        createWaveEffect(e);
+      }
+    });
+    
+    // Tambahkan animasi fade-in untuk elemen tertentu
+    const fadeElements = document.querySelectorAll('.top-bar, .desktop-container, footer');
+    fadeElements.forEach(el => {
+      el.classList.add('fade-in-element');
     });
   </script>
 </body>
